@@ -21,3 +21,8 @@ But the final (after reversal) is HELLO - B3414921B861B861C581
 The decryption system reverses that process, obviously.
 
 Decryption is actually harder than encryption... yeesh!
+
+I have been able to implement a key systemthat stores the position of spaces and removes them from the encrypted message and is generated as a key
+The when decrypting, you enter the encrypted message as well as the key.
+It is incomplete as I have not yet added the implementation for the key in the decryption system.
+Soon to be added.
