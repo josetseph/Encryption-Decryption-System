@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <time.h>
 
 using namespace std;
 
@@ -52,12 +53,18 @@ int main()
 void encrypt(string Plain)
 {
     char hex[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    int temp1, temp3, temp4, record[Plain.length()], j = 0;
+    int temp6, temp1, temp3, temp4, record[Plain.length()], j = 0;
     float temp2;
-    string converted = "", rec = "", temp5 = "-";
+    string converted = "", rec = "", temp5;
+
+    //generate random letter for key
+    srand(time(NULL));
 
     for(int i = 0; i < Plain.length(); i++)
     {
+        temp6 = rand() % 26;
+        temp5 = 'a' + temp6;
+
         temp1 = Plain.at(i);
         if(temp1 == 32)
         {
