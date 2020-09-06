@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <time.h>
 
 using namespace std;
@@ -93,25 +92,29 @@ void encrypt(string Plain)
 
 void decrypt(string Cypher, string Key)
 {
-    int temp2 = 16, temp3 = 16 * 16, temp4 = 16 * 16 * 16, temp6[40000], temp7, temp8[10000], temp9 = 0, temp11, temp12 = 0;
-    string de_converted = "", temp5 = "", space = " ";
-    char dcrypt[40000], temp10[10000];
+    int temp2 = 16, temp3 = 16 * 16, temp4 = 16 * 16 * 16, temp6[40000], temp7, temp1a[10000], temp8[10000], temp9 = 0, temp11, temp12 = 0;
+    string de_converted = "", temp5 = "", space = " ", temp15 = "";
+    char dcrypt[40000];
 
     //Get numbers from key
-    for(int i = 0; i < Key.length(); i++)
+    for(int i = 1; i < Key.length(); i++)
     {
-        temp10[i] = Key[i];
-    }
-    for(int i = 0; i < Key.length(); i++)
-    {
-        while(temp10[i] != '-') //check condition
+        while(isdigit(Key[i]))
         {
-            temp8[temp9] = temp10[i];
-            temp9++;
+            temp15 = temp15 + Key[i];
+            i++;
         }
+        temp1a[temp9] = std::stoi(temp15);
+        temp9++;
+        temp15 = "";
     }
     //reverse order
-    //use
+    temp11 = temp9 - 1;
+    for(int i = 0; i < temp9; i++)
+    {
+        temp8[i] = temp1a[temp11];
+        temp11--;
+    }
 
     for(int i = 0; i < Cypher.length(); i++)
     {
