@@ -1,9 +1,11 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
 void encrypt(string Plain);
-void decrypt(string Cypher);
+void decrypt(string Cypher, string Key);
 int letter(char lett);
 int sqrrt(float number);
 
@@ -31,11 +33,13 @@ int main()
     }
     else if(response == "2")
     {
-        string CypherText;
+        string CypherText, Key;
         cout << "Enter your encrypted message and press enter" << endl;
         std::getline(cin, CypherText);
+        cout << "Enter key and press enter" << endl;
+        std::getline(cin, Key);
 
-        decrypt(CypherText);
+        decrypt(CypherText, Key);
         return 0;
     }
     else
@@ -48,13 +52,20 @@ int main()
 void encrypt(string Plain)
 {
     char hex[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    int temp1, temp3, temp4;
+    int temp1, temp3, temp4, record[Plain.length()], j = 0;
     float temp2;
-    string converted = "";
+    string converted = "", rec = "", temp5 = "-";
 
     for(int i = 0; i < Plain.length(); i++)
     {
         temp1 = Plain.at(i);
+        if(temp1 == 32)
+        {
+            record[j] = i - j;
+            rec = rec + temp5 + to_string(record[j]); //fix this
+            j++;
+            continue;
+        }
         temp1 = temp1 * temp1;
         temp1 = temp1 - 5;
 
@@ -68,14 +79,32 @@ void encrypt(string Plain)
             temp1 = temp3;
         }
     }
-    cout << converted << endl; //B3414921B861B861C581
+
+    cout << "Encrypted message: " << converted << endl;
+    cout << "Key: " << rec << endl;
 }
 
-void decrypt(string Cypher)
+void decrypt(string Cypher, string Key)
 {
-    int temp2 = 16, temp3 = 16 * 16, temp4 = 16 * 16 * 16, temp6[40000], temp7;
-    string de_converted = "", temp5 = "";
-    char dcrypt[40000];
+    int temp2 = 16, temp3 = 16 * 16, temp4 = 16 * 16 * 16, temp6[40000], temp7, temp8[10000], temp9 = 0, temp11, temp12 = 0;
+    string de_converted = "", temp5 = "", space = " ";
+    char dcrypt[40000], temp10[10000];
+
+    //Get numbers from key
+    for(int i = 0; i < Key.length(); i++)
+    {
+        temp10[i] = Key[i];
+    }
+    for(int i = 0; i < Key.length(); i++)
+    {
+        while(temp10[i] != '-') //check condition
+        {
+            temp8[temp9] = temp10[i];
+            temp9++;
+        }
+    }
+    //reverse order
+    //use
 
     for(int i = 0; i < Cypher.length(); i++)
     {
@@ -86,12 +115,22 @@ void decrypt(string Cypher)
         temp6[i - 1] = letter(temp5[i - 1]);
     }
 
+    int temp13 = Cypher.length() / 4;
     for(int i = 0; i < Cypher.length(); i += 4)
     {
         temp7 = (temp6[i] * temp4) + (temp6[i + 1] * temp3) + (temp6[i + 2] * temp2) + (temp6[i + 3]);
         temp7 = temp7 + 5;
         temp7 = sqrrt(temp7);
-        de_converted = char(temp7) + de_converted;
+        if(temp13 == temp8[temp12])//fix this all
+        {
+            de_converted = char(temp7) + space + de_converted;
+            temp12++;
+        }
+        else
+        {
+            de_converted = char(temp7) + de_converted;
+        }
+        temp13--;
     }
 
     cout << de_converted << endl;
