@@ -5,7 +5,7 @@
 using namespace std;
 
 void encrypt(string Plain);
-void decrypt(string Cypher, string Key);
+void decrypt(string Cypher, string Key, int Key2);
 int letter(char lett);
 int sqrrt(float number);
 
@@ -33,13 +33,16 @@ int main()
     }
     else if(response == "2")
     {
-        string CypherText, Key;
+        string CypherText, Key1;
+        int Key2;
         cout << "Enter your encrypted message and press enter" << endl;
         std::getline(cin, CypherText);
-        cout << "Enter key and press enter" << endl;
-        std::getline(cin, Key);
+        cout << "Enter key 1 and press enter" << endl;
+        std::getline(cin, Key1);
+        cout << "Enter key 2 and press enter" << endl;
+        cin >> Key2;
 
-        decrypt(CypherText, Key);
+        decrypt(CypherText, Key1, Key2);
         return 0;
     }
     else
@@ -52,13 +55,13 @@ int main()
 void encrypt(string Plain)
 {
     char hex[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    int temp6, temp1, temp3, temp4, record[Plain.length()], j = 0;
+    int temp6, temp1, temp3, temp4, record[Plain.length()], j = 0, temp7;
     float temp2;
     string converted = "", rec = "", temp5;
 
     //generate random letter for key
     srand(time(NULL));
-
+    temp7 = rand() % 26;
     for(int i = 0; i < Plain.length(); i++)
     {
         temp6 = rand() % 26;
@@ -73,7 +76,7 @@ void encrypt(string Plain)
             continue;
         }
         temp1 = temp1 * temp1;
-        temp1 = temp1 - 5;
+        temp1 = temp1 - temp7;
 
         while(temp1 > 0)
         {
@@ -87,10 +90,11 @@ void encrypt(string Plain)
     }
 
     cout << "Encrypted message: " << converted << endl;
-    cout << "Key: " << rec << endl;
+    cout << "Key 1: " << rec << endl;
+    cout << "Key 2: " << temp7 << endl;
 }
 
-void decrypt(string Cypher, string Key)
+void decrypt(string Cypher, string Key, int Key2)
 {
     int temp2 = 16, temp3 = 16 * 16, temp4 = 16 * 16 * 16, temp6[40000], temp7, temp1a[10000], temp8[10000], temp9 = 0, temp11, temp12 = 0;
     string de_converted = "", temp5 = "", space = " ", temp15 = "";
@@ -129,7 +133,7 @@ void decrypt(string Cypher, string Key)
     for(int i = 0; i < Cypher.length(); i += 4)
     {
         temp7 = (temp6[i] * temp4) + (temp6[i + 1] * temp3) + (temp6[i + 2] * temp2) + (temp6[i + 3]);
-        temp7 = temp7 + 5;
+        temp7 = temp7 + Key2;
         temp7 = sqrrt(temp7);
         if(temp13 == temp8[temp12])//fix this all
         {
