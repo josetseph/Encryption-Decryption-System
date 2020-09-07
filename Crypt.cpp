@@ -61,7 +61,7 @@ void encrypt(string Plain)
 
     //generate random letter for key
     srand(time(NULL));
-    temp7 = rand() % 26;
+    temp7 = rand() % 1000;
     for(int i = 0; i < Plain.length(); i++)
     {
         temp6 = rand() % 26;
